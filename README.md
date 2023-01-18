@@ -14,6 +14,10 @@ MAIL_RECIPIENT:
 PORT:
 ```
 
+## Docker image
+
+Docker image can be found here: [https://hub.docker.com/r/sthlmio/mailgun-sender](https://hub.docker.com/r/sthlmio/mailgun-sender)
+
 ## Multi arch
 
 Built for `linux/amd64` and `linux/arm64/v8`.
