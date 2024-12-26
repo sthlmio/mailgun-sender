@@ -93,13 +93,15 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	mg.SetAPIBase(os.Getenv("MAILGUN_API_BASE"))
 
 	sender := d.Email
+	from := d.Email
 
 	if d.Name != "" {
 		sender = fmt.Sprintf("%s <%s>", d.Name, d.Email)
+		from = d.Name
 	}
 	subject := os.Getenv("MAIL_SUBJECT")
 	recipient := os.Getenv("MAIL_RECIPIENT")
-	name := fmt.Sprintf("\n\n%s", d.Name)
+	name := fmt.Sprintf("\n\n%s", from)
 	phone := fmt.Sprintf("\n%s", d.Phone)
 	text := fmt.Sprintf("%s%s%s", d.Message, name, phone)
 
