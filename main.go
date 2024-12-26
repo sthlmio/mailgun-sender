@@ -98,11 +98,12 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		sender = fmt.Sprintf("%s <%s>", d.Name, d.Email)
 	}
 	subject := os.Getenv("MAIL_SUBJECT")
-	body := d.Message
 	recipient := os.Getenv("MAIL_RECIPIENT")
+	name := fmt.Sprintf("\n\n%s", d.Name)
+	phone := fmt.Sprintf("\n%s", d.Phone)
+	text := fmt.Sprintf("%s%s%s", d.Message, name, phone)
 
-	message := mg.NewMessage(sender, subject, body, recipient)
-
+	message := mg.NewMessage(sender, subject, text, recipient)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
 	defer cancel()
 
