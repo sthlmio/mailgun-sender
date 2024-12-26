@@ -65,6 +65,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	var d struct {
 		Email   string `json:"email"`
+		Name    string `json:"name"`
+		Phone   string `json:"phone"`
 		Message string `json:"message"`
 	}
 
@@ -91,6 +93,10 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	mg.SetAPIBase(os.Getenv("MAILGUN_API_BASE"))
 
 	sender := d.Email
+
+	if d.Name != "" {
+		sender = fmt.Sprintf("%s <%s>", d.Name, d.Email)
+	}
 	subject := os.Getenv("MAIL_SUBJECT")
 	body := d.Message
 	recipient := os.Getenv("MAIL_RECIPIENT")
