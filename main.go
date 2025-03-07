@@ -109,7 +109,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	recipient := os.Getenv("MAIL_RECIPIENT")
 	text := fmt.Sprintf("%s%s%s", d.Message, name, phone)
 
-	sender := fmt.Sprintf("no-reply@%s", os.Getenv("MAILGUN_DOMAIN"))
+	sender := fmt.Sprintf("noreply@%s", os.Getenv("MAILGUN_DOMAIN"))
 	message := mg.NewMessage(sender, subject, text, recipient)
 	message.SetReplyTo(replyTo)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
