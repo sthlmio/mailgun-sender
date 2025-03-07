@@ -92,13 +92,13 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	mg.SetAPIBase(os.Getenv("MAILGUN_API_BASE"))
 
-	sender := d.Email
+	replyTo := d.Email
 	name := ""
 	phone := ""
 
 	if d.Name != "" {
-		sender = fmt.Sprintf("%s <%s>", d.Name, d.Email)
 		name = fmt.Sprintf("\n\n%s", d.Name)
+		replyTo = fmt.Sprintf("%s <%s>", d.Name, d.Email)
 	}
 
 	if d.Phone != "" {
@@ -109,7 +109,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	recipient := os.Getenv("MAIL_RECIPIENT")
 	text := fmt.Sprintf("%s%s%s", d.Message, name, phone)
 
+	sender := fmt.Sprintf("no-reply@%s", os.Getenv("MAILGUN_DOMAIN"))
 	message := mg.NewMessage(sender, subject, text, recipient)
+	message.SetReplyTo(replyTo)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
 	defer cancel()
 
